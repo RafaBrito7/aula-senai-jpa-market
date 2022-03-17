@@ -1,6 +1,7 @@
 package market.services;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,6 +27,12 @@ public class CategoryService {
 			this.LOG.error("O Name não pode ser Nulo!");
 			throw new RuntimeException("The name is null!");
 		}
-		return this.categoryDAO.findByName(name.toLowerCase());
+		try {
+			return this.categoryDAO.findByName(name.toLowerCase());
+		} catch (NoResultException r) {
+			this.LOG.info("Não foi encontrado Categoria, será criada!");
+			return null;
+		}
+		
 	}
 }
