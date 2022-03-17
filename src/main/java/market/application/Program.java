@@ -15,10 +15,12 @@ public class Program {
 		EntityManager entityManager = new JpaConnectionFactory().getEntityManager();
 		ProductService productService = new ProductService(entityManager);
 		
-		Product product = new Product("Notebook", "Acer Aspire 5", new BigDecimal(3550) , 
-				new Category("Informática"));
+		Product product = new Product("Doritos", "Black Edition", new BigDecimal(14.99) , 
+				new Category("Alimento"));
 		
-		productService.create(product);
+//		productService.create(product);
+		
+		productService.delete(1L);
 		
 	}
 
