@@ -19,8 +19,8 @@ public class Program {
 		Product product = new Product("Cheetos", "Requeijão 180g", new BigDecimal(12.99) , 
 				new Category("Alimento"));
 		
-		productService.create(product);
-//		productService.delete(1L);
+//		productService.create(product);
+		productService.delete(2L);
 		
 	}
 
