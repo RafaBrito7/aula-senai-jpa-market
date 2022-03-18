@@ -1,5 +1,7 @@
 package market.model.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 
 import market.model.persistence.Product;
@@ -26,6 +28,13 @@ public class ProductDAO {
 	
 	public Product update(Product product) {
 		return convertToMerge(product);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Product> listAll() {
+		String sql = "SELECT * FROM Product";
+		return this.entityManager.createNativeQuery(sql, Product.class)
+			.getResultList();
 	}
 	
 	private Product convertToMerge(Product product) {

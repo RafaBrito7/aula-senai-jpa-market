@@ -1,5 +1,8 @@
 package market.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 
@@ -103,7 +106,18 @@ public class ProductService {
 		
 		commitAndCloseTransaction();
 		this.LOG.info("Produto atualizado com sucesso!");
+	}
+	
+	public List<Product> listAll() {
+		this.LOG.info("Preparando para listar os produtos");
+		List<Product> products = this.productDAO.listAll();
 		
+		if (products == null) {
+			this.LOG.info("Não foram encontrados Produtos");
+			return new ArrayList<Product>();
+		}
+		this.LOG.info("Foram encontrados " + products.size() + " produtos.");
+		return products;
 	}
 
 	private void validateProductIsNull(Product product) {
