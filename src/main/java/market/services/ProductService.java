@@ -73,10 +73,7 @@ public class ProductService {
 		}
 		
 		Product product = this.productDAO.getById(id);
-		if (product == null) {
-			this.LOG.error("O Produto não Existe!");
-			throw new EntityNotFoundException("Product not Found!");
-		}
+		validateProductIsNull(product);
 		
 		this.LOG.info("Produto encontrado com sucesso!");
 		
@@ -84,6 +81,36 @@ public class ProductService {
 		this.productDAO.delete(product);
 		commitAndCloseTransaction();
 		this.LOG.info("Produto deletado com sucesso!");
+	}
+	
+	public void update(Product newProduct, Long productId) {
+		this.LOG.info("Preparando para Atualizar o Produto");
+		if (newProduct == null || productId == null) {
+			this.LOG.error("Um dos parâmetros está nulo!");
+			throw new RuntimeException("The parameter is null");
+		}
+		
+		Product product = this.productDAO.getById(productId);
+		validateProductIsNull(product);
+		
+		this.LOG.info("Produto encontrado no banco!");
+		
+		getBeginTransaction();
+		product.setName(newProduct.getName());
+		product.setDescription(newProduct.getDescription());
+		product.setPrice(newProduct.getPrice());
+		product.setCategory(this.categoryService.findByName(newProduct.getCategory().getName()));
+		
+		commitAndCloseTransaction();
+		this.LOG.info("Produto atualizado com sucesso!");
+		
+	}
+
+	private void validateProductIsNull(Product product) {
+		if (product == null) {
+			this.LOG.error("O Produto não Existe!");
+			throw new EntityNotFoundException("Product not Found!");
+		}
 	}
 
 }

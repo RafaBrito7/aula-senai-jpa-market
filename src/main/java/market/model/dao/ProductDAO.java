@@ -17,11 +17,19 @@ public class ProductDAO {
 	}
 	
 	public void delete(Product product) {
-		this.entityManager.remove(product);
+		this.entityManager.remove(convertToMerge(product));
 	}
-	
+
 	public Product getById(Long id) {
 		return this.entityManager.find(Product.class, id);
+	}
+	
+	public Product update(Product product) {
+		return convertToMerge(product);
+	}
+	
+	private Product convertToMerge(Product product) {
+		return this.entityManager.merge(product);
 	}
 
 }

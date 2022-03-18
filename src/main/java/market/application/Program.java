@@ -20,7 +20,9 @@ public class Program {
 				new Category("Alimento"));
 		
 //		productService.create(product);
-		productService.delete(2L);
+//		productService.delete(2L);
+		
+		productService.update(product, 5L);
 		
 	}
 
