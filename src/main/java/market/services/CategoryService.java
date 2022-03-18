@@ -1,6 +1,7 @@
 package market.services;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 
 import org.apache.logging.log4j.LogManager;
@@ -22,6 +23,17 @@ public class CategoryService {
 		this.categoryDAO = new CategoryDAO(entityManager);
 	}
 	
+	private void getBeginTransaction() {
+		this.LOG.info("Abrindo Transação com o banco de dados...");
+		entityManager.getTransaction().begin();
+	}
+
+	private void commitAndCloseTransaction() {
+		this.LOG.info("Commitando e Fechando transação com o banco de dados");
+		entityManager.getTransaction().commit();
+		entityManager.close();
+	}
+	
 	public Category findByName(String name) {
 		if (name == null || name.isEmpty()) {
 			this.LOG.error("O Name não pode ser Nulo!");
@@ -33,6 +45,24 @@ public class CategoryService {
 			this.LOG.info("Não foi encontrado Categoria, será criada!");
 			return null;
 		}
+	}
+	
+	public void delete(Long id) {
 		
+	}
+	
+	public Category getById(Long id) {
+		if (id == null) {
+			this.LOG.error("O ID está nulo!");
+			throw new RuntimeException("The parameter is null!");
+		}
+		
+		Category category = this.categoryDAO.getById(id);
+		
+		if (category == null) {
+			this.LOG.error("Não foi encontrado a categoria de id " + id);
+			throw new EntityNotFoundException("Category not found!");
+		}
+		return category;
 	}
 }

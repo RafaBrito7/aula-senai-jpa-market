@@ -18,4 +18,12 @@ public class CategoryDAO {
 			.setParameter("name", name)
 			.getSingleResult();
 	}
+	
+	public void delete(Category category) {
+		this.entityManager.remove(category);
+	}
+	
+	public Category getById(Long id) {
+		return this.entityManager.find(Category.class, id);
+	}
 }
