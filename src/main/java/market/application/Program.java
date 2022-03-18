@@ -16,14 +16,14 @@ public class Program {
 		EntityManager entityManager = new JpaConnectionFactory().getEntityManager();
 		ProductService productService = new ProductService(entityManager);
 		
-		Product product = new Product("Cheetos", "Requeijão 180g", new BigDecimal(12.99) , 
+		Product product = new Product("Cheetos", "Cheddar 90g", new BigDecimal(6.99), 
 				new Category("Alimento"));
 		
 //		productService.create(product);
 //		productService.delete(2L);
 //		productService.update(product, 5L);
 		
-		List<Product> products = productService.listAll();
+		List<Product> products = productService.listByName("Cheetos");
 		products.stream().forEach(p -> System.out.println(p));
 	}
 
